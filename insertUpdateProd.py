@@ -10,13 +10,16 @@ DB = DBClient.priceTrackerDB
 class insertUpdateProds(object):
 
     def __init__(self,prod):
+
         self.product=prod
 
     def checkRecords(self):
+
         colData = DB.productSearch.find({"prodName": self.product["name"]}).count()
         return colData
 
     def prodManipulations(self):
+
         colData = insertUpdateProds.checkRecords(self)
 
         if colData == 0:
