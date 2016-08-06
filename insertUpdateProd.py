@@ -13,7 +13,6 @@ class insertUpdateProds(object):
         self.product=prod
 
     def checkRecords(self):
-
         colData = DB.productSearch.find({"prodName": self.product["name"]}).count()
         return colData
 
