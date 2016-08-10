@@ -8,9 +8,12 @@ DBClient = pymongo.MongoClient()
 DB = DBClient.priceTrackerDB
 
 class exceptionHandler(object):
+
     def __init__(self, exceptions, method):
+
         self.excep = exceptions
         self.method=method
 
-    def logInDB (self):
+    def logErrorInDB (self):
+
         DB.exceptionsLogged.insert_one({"loggedDate":dt.datetime.now(),"exception":self.excep,"methodName":self.method})

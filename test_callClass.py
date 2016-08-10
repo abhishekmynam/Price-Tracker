@@ -35,3 +35,20 @@ if colData is not None:
         print(colData1)
 else:
     print("no data")'''
+
+
+
+'''from amazon.api import AmazonAPI
+
+amazon = AmazonAPI(AMAZON_ACCESS_KEY, AMAZON_SECRET_KEY, AMAZON_ASSOC_TAG)
+products = amazon.search(Keywords='kindle', SearchIndex='All')
+for i, product in enumerate(products):
+    print("{0}. '{1}'".format(i, product.title))
+    ("https://api.bestbuy.com/v1/products((search=iphone))?apiKey=dwg5j4bky4vpvcpsvqt7nbuc&sort=salePrice.asc&show=salePrice,url&pageSize=1&callback=JSON_CALLBACK&format=json")
+
+    for bill in data['bills']:
+    for organization in bill['organizations']:
+        print (organization.get('name'))`
+
+'''
+

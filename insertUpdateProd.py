@@ -3,6 +3,7 @@
 
 import pymongo
 import datetime as dt
+import exceptionHandling
 
 DBClient = pymongo.MongoClient()
 DB = DBClient.priceTrackerDB
@@ -15,18 +16,28 @@ class insertUpdateProds(object):
 
     def checkRecords(self):
 
-        colData = DB.productSearch.find({"prodName": self.product["name"]}).count()
-        return colData
+        try:
+            colData = DB.productSearch.find({"prodName": self.product["name"]}).count()
+            return colData
+
+        except Exception as e:
+            errorHandle = exceptionHandling.exceptionHandler(e, "checkRecords")
+            errorHandle.logErrorInDB()
 
     def prodManipulations(self):
 
-        colData = insertUpdateProds.checkRecords(self)
+        try:
+            colData = insertUpdateProds.checkRecords(self)
 
-        if colData == 0:
-            maxProdId = DB.productSearch.find_one(sort=[("prodId", -1)])
-            nextProdId=maxProdId["prodId"] +1
-            DB.productSearch.insert_one({"prodId": nextProdId,"prodName":self.product["name"],"firstSearchDate":dt.datetime.now(),
-                                "dailySearch":[{"searchDate":dt.datetime.now(),"url":self.product["url"],"minPrice":self.product["price"]}]})
-        else:
-            prodName = DB.productSearch.update_one({"prodName":self.product["name"]},
-                                                   {"$addToSet":{"dailySearch":{"searchDate":dt.datetime.now(),"url":self.product["url"],"minPrice":self.product["price"]}}})
+            if colData == 0:
+                maxProdId = DB.productSearch.find_one(sort=[("prodId", -1)])
+                nextProdId=maxProdId["prodId"] +1
+                DB.productSearch.insert_one({"prodId": nextProdId,"prodName":self.product["name"],"firstSearchDate":dt.datetime.now(),
+                                    "dailySearch":[{"searchDate":dt.datetime.now(),"url":self.product["url"],"minPrice":self.product["price"]}]})
+            else:
+                prodName = DB.productSearch.update_one({"prodName":self.product["name"]},
+                                                       {"$addToSet":{"dailySearch":{"searchDate":dt.datetime.now(),"url":self.product["url"],"minPrice":self.product["price"]}}})
+
+        except Exception as e:
+            errorHandle = exceptionHandling.exceptionHandler(e, "prodManipulations")
+            errorHandle.logErrorInDB()
