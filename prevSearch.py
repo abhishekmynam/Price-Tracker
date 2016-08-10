@@ -17,12 +17,11 @@ class getPrevSearch(object):
 
     def prevSearch(self):
         prodList = getPrevSearch.userProdList(self)
-        #activeSearchDate= dt.datetime.today() - dt.timedelta(days=90)
+        activeSearchDate= dt.datetime.now() - dt.timedelta(days=90)
         prevProds=[]
         for prod in prodList:
             prevProds.append(DB.productSearch.find_one
-                             ({"prodId":prod["prodId"],"dailySearch.searchDate":{"$gt":prod["searchDate"] }},{"_id":0,"prodName":1,"dailySearch.minPrice":1,"dailySearch.url":1,"dailySearch.searchDate":1}))
+                             ({"prodId":prod["prodId"],"dailySearch.searchDate":{"$gt":activeSearchDate }},{"_id":0,"prodName":1,"dailySearch.minPrice":1,"dailySearch.url":1,"dailySearch.searchDate":1}))
 
 
-        prevProdstemp=prevProds
-
+        return prevProds

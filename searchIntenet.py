@@ -26,7 +26,8 @@ for i, product in enumerate(products):
 
 
 bestBuyApiKey="dwg5j4bky4vpvcpsvqt7nbuc"
-productName="iphone"
+user =123
+productName="xbox"
 urlString = "https://api.bestbuy.com/v1/products((search="+productName+"))?apiKey="+bestBuyApiKey+"&sort=salePrice.asc&show=salePrice,url&pageSize=1&callback=JSON_CALLBACK&format=json"
 response= urllib.request.urlopen(urlString)
 response_string=response.read().decode("utf-8")
@@ -38,12 +39,13 @@ produrl = response_json["products"][0]["url"]
 product ={"name":productName,"price":prodPrice,"url":produrl}
 
 
-user =123
+
 writeToDB = insertUpdateProds(product)
 writeToDB.prodManipulations()
 class2 = updateUserSearch(product,user)
 class2.insertUpdateUserSearch()
 classes = getPrevSearch(user)
-classes.prevSearch()
+dicts=classes.prevSearch()
+print(dicts)
 
 
