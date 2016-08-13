@@ -21,7 +21,8 @@ class createAndAuthUser(object):
         try:
             isExistingUser = DB.userInfo.find({"email": self.email}).count()
             if isExistingUser==0:
-                curUserId = DB.userInfo.find_one(sort=[("userId", -1)])+1
+                curUserId = DB.userInfo.find_one(sort=[("userId", -1)])
+                curUserId = curUserId["userId"]+1
                 DB.userInfo.insert_one({"userId":curUserId,"firstName":self.firstName,"lastName":self.lastName,"DOB":self.DOB,"email":self.email,
                                 "password":self.password})
                 message = "user created"
@@ -42,8 +43,8 @@ class createAndAuthUser(object):
                 message="no user exists"
                 return message
             else:
-                passowrd= DB.userInfo.find_one({"email":self.email},{"password":1})
-                if passowrd==self.password:
+                user= DB.userInfo.find_one({"email":self.email},{"password":1})
+                if user["password"]==self.password:
                     return 1
                 else:
                     return 0
