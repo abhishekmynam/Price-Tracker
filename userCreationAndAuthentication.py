@@ -43,7 +43,7 @@ class createAndAuthUser(object):
                 message="no user exists"
                 return message
             else:
-                user= DB.userInfo.find_one({"email":self.email},{"password":1})
+                user= DB.userInfo.find_one({"email":self.email},{"password":1,"_id":0})
                 if user["password"]==self.password:
                     return 1
                 else:
