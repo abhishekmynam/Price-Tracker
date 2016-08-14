@@ -1,16 +1,26 @@
 from insertUpdateProd import insertUpdateProds
 from trackUserSearch import updateUserSearch
 from prevSearch import getPrevSearch
+from userCreationAndAuthentication import createAndAuthUser
+
+users ={"firstName":"Abhi","lastName":"Mynam","DOB":"11/11/1989","email":"abhi@gmail.com","password":"abhishek"}
+users =createAndAuthUser(users)
+outputmsg = users.authUser()
+outputmsg1=outputmsg
+
+
+
+
 ''''
 prod={"name":"iphone11","url":"www.google.com","price":123}
 classes = insertUpdateProds(prod)
 classes.prodManipulations()
 user =123
 class2 = updateUserSearch(prod,user)
-class2.insertUpdateUserSearch()'''
+class2.insertUpdateUserSearch()
 userId=123
 classes = getPrevSearch(userId)
-classes.prevSearch()
+classes.prevSearch()'''
 
 
 '''
