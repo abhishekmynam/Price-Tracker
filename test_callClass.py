@@ -2,11 +2,14 @@ from insertUpdateProd import insertUpdateProds
 from trackUserSearch import updateUserSearch
 from prevSearch import getPrevSearch
 from userCreationAndAuthentication import createAndAuthUser
+import dailyProductTracking
 
-users ={"firstName":"Abhi","lastName":"Mynam","DOB":"11/11/1989","email":"abhi@gmail.com","password":"abhishek"}
+classes = dailyProductTracking.dailyProdSearch()
+
+'''users ={"firstName":"Abhi","lastName":"Mynam","DOB":"11/11/1989","email":"abhi@gmail.com","password":"abhishek"}
 users =createAndAuthUser(users)
 outputmsg = users.authUser()
-outputmsg1=outputmsg
+outputmsg1=outputmsg'''
 
 
 

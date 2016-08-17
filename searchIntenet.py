@@ -23,13 +23,14 @@ class internetSearch(object):
            response_string =response_string.replace("JSON_CALLBACK({","{")
            response_string= response_string.replace("})","}")
            response_json = json.loads(response_string)
-           prodPrice = response_json["products"][0]["salePrice"]
-           produrl = response_json["products"][0]["url"]
+           prodPrice = response_json["products"][0]["salePrice"] if (len(response_json["products"]) >0) else 0
+           produrl = response_json["products"][0]["url"] if (len(response_json["products"]) >0) else "no data found on internet"
            product ={"name":self.productName,"price":prodPrice,"url":produrl}
            writeToDB = insertUpdateProds(product)
            writeToDB.prodManipulations()
-           userSearch = updateUserSearch(product,self.userId)
-           userSearch.insertUpdateUserSearch()
+           if (self.userId !=999):
+               userSearch = updateUserSearch(product,self.userId)
+               userSearch.insertUpdateUserSearch()
 
        except Exception as e:
            errorHandle = exceptionHandling.exceptionHandler(e,"bestBuyData")
