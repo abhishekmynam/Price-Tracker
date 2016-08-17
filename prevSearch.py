@@ -29,11 +29,18 @@ class getPrevSearch(object):
             prodList = getPrevSearch.userProdList(self)
             activeSearchDate= dt.datetime.now() - dt.timedelta(days=90)
             prevProds=[]
+            prodSearch = []
+            prodSearchData =[]
             for prod in prodList:
-                prevProds.append(DB.productSearch.find_one
-                                 ({"prodId":prod["prodId"],"dailySearch.searchDate":{"$gt":activeSearchDate }},{"_id":0,"prodName":1,"dailySearch.minPrice":1,"dailySearch.url":1,"dailySearch.searchDate":1}))
-
-
+                prevProd = DB.productSearch.find_one({"prodId":prod["prodId"],"dailySearch.searchDate":{"$gt":activeSearchDate }},{"_id":0,"prodName":1,"dailySearch.minPrice":1,"dailySearch.url":1,"dailySearch.searchDate":1})
+                if prevProd != None:
+                    for s in prevProd["dailySearch"]:
+                        searched = str(s["searchDate"])
+                        searched = searched + "     " + str(s["minPrice"])
+                        searched = searched + "     " + s["url"]
+                        prodSearchData.append(searched)
+                    prodSearch = {"prodName":prevProd["prodName"],"searchData":prodSearchData}
+                    prevProds.append(prodSearch)
             return prevProds
 
         except Exception as e:
