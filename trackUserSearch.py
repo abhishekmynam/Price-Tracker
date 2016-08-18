@@ -2,10 +2,11 @@
     else update the document with a new field with prod id and current date'''
 import pymongo
 import datetime as dt
+import exceptionHandling
 
 DBClient = pymongo.MongoClient()
 DB = DBClient.priceTrackerDB
-import exceptionHandling
+
 
 class updateUserSearch(object):
 
