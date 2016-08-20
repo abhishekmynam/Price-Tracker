@@ -20,7 +20,7 @@ def dailyProdSearch():
 
         for prods in prodsList:
             search=searchIntenet.internetSearch(prods,999)
-            search.bestBuyData()
+            searchedData = search.bestBuyData()
 
     except Exception as e:
         errorHandle = exceptionHandling.exceptionHandler(e, "dailyProdSearch")

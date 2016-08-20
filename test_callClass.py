@@ -4,7 +4,11 @@ from prevSearch import getPrevSearch
 from userCreationAndAuthentication import createAndAuthUser
 import dailyProductTracking
 import deleteOldData
-classes = deleteOldData.deleteOldData()
+import emailAlerts
+
+classes = emailAlerts.emailAlertForProducts("iphone",124)
+thisValue = classes.createAlert()
+thisValue1= thisValue
 
 #classes = dailyProductTracking.dailyProdSearch()
 

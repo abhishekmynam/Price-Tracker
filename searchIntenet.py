@@ -31,6 +31,7 @@ class internetSearch(object):
            if (self.userId !=999):
                userSearch = updateUserSearch(product,self.userId)
                userSearch.insertUpdateUserSearch()
+           return product
 
        except Exception as e:
            errorHandle = exceptionHandling.exceptionHandler(e,"bestBuyData")

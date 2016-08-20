@@ -20,8 +20,8 @@ class updateUserSearch(object):
         try:
             prodIds=DB.productSearch.find_one({"prodName": self.product["name"]},{"prodId":1,"_id":0})
             prodExist= DB.userSearch.find_one({"userId":self.user},{"prods":{"$elemMatch":{"prodId":prodIds["prodId"]}}})
-            oldYes = len(prodExist) - 1
-            return oldYes
+            #oldYes = len(prodExist) - 1
+            return prodExist
 
         except Exception as e:
             errorHandle = exceptionHandling.exceptionHandler(e, "isOldUserSearch")
@@ -30,13 +30,17 @@ class updateUserSearch(object):
     def insertUpdateUserSearch(self):
 
         try:
-            oldYes = updateUserSearch.isOldUserSearch(self)
+            prodExist = updateUserSearch.isOldUserSearch(self)
 
-            if oldYes==1:
+            if prodExist == None:
+                prodIds = DB.productSearch.find_one({"prodName": self.product["name"]}, {"prodId": 1, "_id": 0})
+                DB.userSearch.insert_one(
+                    {"userId": self.user, "prods": [{"prodId": prodIds["prodId"], "searchDate": dt.datetime.now()}]})
+
+            elif len(prodExist)==2:
                 prodIds = DB.productSearch.find_one({"prodName": self.product["name"]}, {"prodId": 1, "_id": 0})
                 DB.userSearch.update_one({"userId": self.user, "prods": {"$elemMatch": {"prodId": prodIds["prodId"]}}},
-                                         {"$set":{"prods.$.searchDate": dt.datetime.now()}})
-
+                                         {"$set": {"prods.$.searchDate": dt.datetime.now()}})
 
             else:
                 prodIds = DB.productSearch.find_one({"prodName": self.product["name"]}, {"prodId": 1, "_id": 0})
