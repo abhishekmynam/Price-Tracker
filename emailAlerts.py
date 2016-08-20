@@ -23,8 +23,9 @@ class emailAlertForProducts(object):
                 if (DB.alerts.find({"userId": self.userId, "prods.prodName":self.product}).count() >0):
                     prices= DB.alerts.find_one({"userId": self.userId, "prods": {"$elemMatch": {"prodName": self.product}}},{"_id":0,"prods.minPrice":1})["prods"]
                     lowestPrice= min([price["minPrice"] for price in prices])
-                    if (lowestPrice > searchedData["price"]):
+                    if (lowestPrice >0.01):# searchedData["price"]):
                         DB.alerts.update_one({"userId": self.userId,"prods":{"$elemMatch":{"prodName": self.product}}},{"$set": {"prods.$.minPrice":searchedData["price"],"prods.$.date":dt.datetime.now()}})
+                        DB.sendAlert.insert_one({"userId": self.userId,"prodName":self.product,"price":searchedData["price"],"date":dt.datetime.now()})
 
                 else:
                     DB.alerts.update_one({"userId": self.userId},{"$addToSet":{"prods":{"prodName":self.product,"minPrice":searchedData["price"],"date":dt.datetime.now()}}})
